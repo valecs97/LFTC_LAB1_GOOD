@@ -117,7 +117,7 @@ public class BinaryTree
 
     public List<Tuple> preorder() {
 
-        System.out.print("Preorder Traversal->");
+        //System.out.print("Preorder Traversal->");
         List<Tuple> list = new ArrayList<>();
         pre(parent,list);
         return list;
@@ -125,7 +125,7 @@ public class BinaryTree
 
     public List<Tuple> postorder() {
 
-        System.out.print("Postorder Traversal->");
+        //System.out.print("Postorder Traversal->");
         List<Tuple> list = new ArrayList<>();
         post(parent,list);
         return list;
@@ -133,12 +133,13 @@ public class BinaryTree
 
     public List<Tuple> inorder() {
 
-        System.out.print("Inorder Traversal->");
+        //System.out.print("Inorder Traversal->");
         List<Tuple> list = new ArrayList<>();
         in(parent,list);
+        if (list.get(0)==null)
+            return new ArrayList<>();
         return list;
     }
-
 
     public String toString() {
 

@@ -1,0 +1,12 @@
+The program does the following :
+    - reads the codification table file
+    - reads every line of the program
+        -separated the line with the help of splitters
+        -checks if the line is in the codification table
+            -adds to PIF table
+        -else checks if it is a constant
+            -adds to ST_C table and PIF table
+        -else check if it is a identifier and has maximum 8 characters
+            -adds to ST table and PIF table
+        -else crashes and shows a message
+    -prints resulted tables with the help of binary tree

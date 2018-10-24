@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 public class Main {
 
+    static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
+
     public static void main(String[] args) {
         // Initial declarations
 
@@ -74,17 +76,17 @@ public class Main {
         {
             try
             {
-                line = sc.nextLine();
-                List<String> tokens = Arrays.stream(line.split("(\\+|-|\\*|/|:=|<|>|<=|>=|=|!=|and|or|not|\\(|\\)|\\[|\\]|\\{|\\}|:|;|,| )")).filter(item -> !"".equals(item)).collect(Collectors.toList());
-
+                line = sc.nextLine().toLowerCase();
+                List<String> tokens = Arrays.stream(line.split(String.format(WITH_DELIMITER,"(\\+|-|\\*|/|:=|<|>|<=|>=|=|!=|and|or|not|\\(|\\)|\\[|\\]|\\{|\\}|:|;|,| )"))).filter(item -> !"".equals(item)).collect(Collectors.toList());
+                tokens = tokens.stream().filter(item -> !"".equals(item) && !" ".equals(item)).collect(Collectors.toList());
                 for (String s : tokens)
                 {
                     boolean flag = false;
 
                     //Console.WriteLine(s);
-                    s.replace(" ", "");
+                    //s.replace(" ", "");
 
-                    if (codes.contains(s))
+                    if (codes.stream().anyMatch(t -> t.x.equals(s)))
                     {
                         System.out.println("SPECIAL: " + s);
 
@@ -114,19 +116,9 @@ public class Main {
                         System.out.println("BOOLEAN: " + s);
                         flag = true;
                     }
-                    else if (s.matches("^'[a-zA-Z0-9]?'$"))
+                    else if (s.matches("(luni|marti|miercuri|joi|vineri|sambata|duminica)"))
                     {
-                        System.out.println("CHAR: " + s);
-                        flag = true;
-                    }
-                    else if (s.matches( "^\"[a-zA-Z0-9]*\"$"))
-                    {
-                        System.out.println("STRING: " + s);
-                        flag = true;
-                    }
-                    else if (s.matches( "^[0-9]+.[0-9]+$"))
-                    {
-                        System.out.println("REAL: " + s);
+                        System.out.println("DAY: " + s);
                         flag = true;
                     }
                     else if (s.matches( "^[0-9]+$"))
@@ -139,24 +131,35 @@ public class Main {
                         System.out.println("IDENTIFIER: " + s);
 
                         if (s.length() > 8) {
-                            System.out.println("Identifiers are not allowed to be longer than 8 characters! @ Line " + line_counter);
+                            System.out.println("Identifiers are not allowed to be longer than 8 characters! Line " + line_counter);
                             System.exit(3);
                         }
+                        Tuple identifier;
+                        if (ST_VAR.inorder().stream().anyMatch(item -> item.x.equals(s))){
+                            identifier = ST_VAR.inorder().stream().filter(item -> item.x.equals(s)).findFirst().get();
+                        } else {
+                            identifier = new Tuple<>(s);
+                            ST_VAR.add(identifier);
 
-                        Tuple<String> identifier = new Tuple<>(s);
-                        ST_VAR.add(identifier);
+                        }
                         PIF.add(new Tuple<>(identifier_code, identifier.y));
                     }
                     else
                     {
-                        System.out.println("Lexical error, unknown token @ line : " + line_counter);
+                        System.out.println("Lexical error, unknown token at line : " + line_counter);
                         System.exit(3);
                     }
 
                     if(flag)
                     {
-                        Tuple<String> constant = new Tuple<>(s);
-                        ST_CONST.add(constant);
+                        Tuple constant;
+                        if (ST_CONST.inorder().stream().anyMatch(item -> item.x.equals(s))){
+                            constant = ST_CONST.inorder().stream().filter(item -> item.x.equals(s)).findFirst().get();
+                        } else {
+                            constant = new Tuple<>(s);
+                            ST_CONST.add(constant);
+
+                        }
                         PIF.add(new Tuple<>(constant_code, constant.y));
                     }
                 }

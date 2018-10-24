@@ -1,9 +1,20 @@
-var a : integer, b : boolean, c : real, d : char, e : string;
-begin
-a = 1 + 2 and 3;
-if (a<=3) then
-b = true;
-c = a + 3.14;
-d = 'a';
-e = "aa";
-end
+START
+    VAR A INT ,B BOOLEAN,C DAY;
+    A=2;
+    B=TRUE;
+    C=LUNI;
+    READ A;
+    WRITE TRUE;
+    IF true or ((A or B) and false) == (1 + (3 + a))
+    THEN
+        B=FALSE;
+        C=MARTI;
+    ELSE
+        A=TRUE;
+    END-IF;
+    WHILE true or ((A or B) and false) == (1 + (3 + a))
+        THEN
+            B=FALSE;
+            C=MARTI;
+    END-WHILE;
+END
