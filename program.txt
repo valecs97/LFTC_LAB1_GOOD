@@ -1,0 +1,9 @@
+var a : integer, b : boolean, c : real, d : char, e : string;
+begin
+a = 1 + 2 and 3;
+if (a<=3) then
+b = true;
+c = a + 3.14;
+d = 'a';
+e = "aa";
+end
