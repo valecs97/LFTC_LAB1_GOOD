@@ -2,6 +2,7 @@ import model.Tuple;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,7 @@ public class Main {
 
     static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         // Initial declarations
 
         String line;
@@ -46,10 +47,12 @@ public class Main {
             if (name.equals("identifier"))
             {
                 identifier_code = code;
+                codes.add(new Tuple<>(name,code));
             }
             else if (name.equals("constant"))
             {
                 constant_code = code;
+                codes.add(new Tuple<>(name,code));
             }
             else
             { codes.add(new Tuple<>(name,code)); }
@@ -77,8 +80,14 @@ public class Main {
             try
             {
                 line = sc.nextLine().toLowerCase();
-                List<String> tokens = Arrays.stream(line.split(String.format(WITH_DELIMITER,"(\\+|-|\\*|/|:=|<|>|<=|>=|=|!=|and|or|not|\\(|\\)|\\[|\\]|\\{|\\}|:|;|,| )"))).filter(item -> !"".equals(item)).collect(Collectors.toList());
+                List<String> tokens = Arrays.stream(line.split(String.format(WITH_DELIMITER,"(\\+|-|\\*|/|==|<=|>=|<|>|=|!=|and|or|not|\\(|\\)|\\[|\\]|\\{|\\}|:|;|,| )"))).filter(item -> !"".equals(item)).collect(Collectors.toList());
                 tokens = tokens.stream().filter(item -> !"".equals(item) && !" ".equals(item)).collect(Collectors.toList());
+                for (int i=0;i<tokens.size()-1;i++){
+                    if ((tokens.get(i) + tokens.get(i+1)).matches("(==|>=|<=|!=)")){
+                        tokens.set(i,tokens.get(i)+tokens.get(i+1));
+                        tokens.remove(i+1);
+                    }
+                }
                 for (String s : tokens)
                 {
                     boolean flag = false;
@@ -114,11 +123,6 @@ public class Main {
                     else if(s.equals("true") || s.equals("false"))
                     {
                         System.out.println("BOOLEAN: " + s);
-                        flag = true;
-                    }
-                    else if (s.matches("(luni|marti|miercuri|joi|vineri|sambata|duminica)"))
-                    {
-                        System.out.println("DAY: " + s);
                         flag = true;
                     }
                     else if (s.matches( "^[0-9]+$"))
@@ -177,8 +181,7 @@ public class Main {
             System.out.println("Not all opened parantheses have been closed!");
             System.exit(3);
         }
-
-        System.out.println("ST_VAR");
+/*        System.out.println("ST_VAR");
         for (Tuple t :ST_VAR.postorder())
             System.out.println(t.x + " " + t.y);
         System.out.println();
@@ -188,8 +191,10 @@ public class Main {
             System.out.println(t.x + " " + t.y);
         System.out.println();
 
-        System.out.println("PIF");
+        System.out.println("PIF");*/
+        PrintWriter writer = new PrintWriter(new File("pif.txt"));
         for (Tuple t : PIF)
-            System.out.println(t.x + " " + t.y);
+            writer.println(t.x + " " + t.y);
+        writer.close();
     }
 }

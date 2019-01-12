@@ -10,3 +10,11 @@ The program does the following :
             -adds to ST table and PIF table
         -else crashes and shows a message
     -prints resulted tables with the help of binary tree
+
+Regex delimiter : (\+|-|\*|/|==|<=|>=|<|>|=|!=|and|or|not|\(|\)|\[|\]|\{|\}|:|;|,| )
+With delimiter : ((?<=%1$s)|(?=%1$s))
+Regex identifier : ^[a-zA-Z][a-zA-Z0-9]*$
+Regex constant :
+    Regex day : ^(luni|marti|miercuri|joi|vineri|sambata|duminica)$
+    Regex number : ^[0-9]+$
+    Boolean: checks if the string is equal with true or false

@@ -44,7 +44,7 @@ public class BinaryTree
             return;
         }
 
-        if (newNode.data.y < root.data.y) {
+        if (newNode.data.x.toString().compareTo(root.data.y.toString())>0) {
 
             if (root.left == null) {
                 root.left = newNode;
@@ -118,6 +118,8 @@ public class BinaryTree
     public List<Tuple> preorder() {
 
         //System.out.print("Preorder Traversal->");
+        if (size == 0)
+            return new ArrayList<>();
         List<Tuple> list = new ArrayList<>();
         pre(parent,list);
         return list;
@@ -125,6 +127,8 @@ public class BinaryTree
 
     public List<Tuple> postorder() {
 
+        if (size == 0)
+            return new ArrayList<>();
         //System.out.print("Postorder Traversal->");
         List<Tuple> list = new ArrayList<>();
         post(parent,list);
@@ -132,7 +136,8 @@ public class BinaryTree
     }
 
     public List<Tuple> inorder() {
-
+        if (size == 0)
+            return new ArrayList<>();
         //System.out.print("Inorder Traversal->");
         List<Tuple> list = new ArrayList<>();
         in(parent,list);
